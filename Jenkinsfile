@@ -31,6 +31,14 @@ pipeline {
                 }
             }
         }
+
+        stage('Trigger job chaine') {
+            steps {
+                script {
+                    build job: 'tp-boutique-postbuild', wait: true, propagate: true
+                }
+            }
+        }
     }
 
     post {
