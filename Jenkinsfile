@@ -1,6 +1,10 @@
 pipeline {
     agent any
 
+    tools {
+        maven 'Maven3'
+    }
+
     stages {
         stage('Checkout') {
             steps {
@@ -10,7 +14,7 @@ pipeline {
 
         stage('Build + Tests + Coverage') {
             steps {
-                sh 'mvn clean verify -B'
+                bat 'mvn clean verify -B'
             }
             post {
                 always {
@@ -23,7 +27,7 @@ pipeline {
 
         stage('Qualite statique') {
             steps {
-                sh 'mvn checkstyle:checkstyle pmd:pmd pmd:cpd spotbugs:spotbugs -B'
+                bat 'mvn checkstyle:checkstyle pmd:pmd pmd:cpd spotbugs:spotbugs -B'
             }
             post {
                 always {
@@ -45,7 +49,7 @@ pipeline {
         failure {
             emailext(
                 subject: "Build FAILED - ${env.JOB_NAME} #${env.BUILD_NUMBER}",
-                body: """Le build a échoué.
+                body: """Le build a echoue.
 
 Projet : ${env.JOB_NAME}
 Build : #${env.BUILD_NUMBER}
@@ -53,6 +57,6 @@ URL : ${env.BUILD_URL}
 """,
                 to: "asmaeelfehri@gmail.com"
             )
-        } 
+        }
     }
-}
+} 
