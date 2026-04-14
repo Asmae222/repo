@@ -87,7 +87,7 @@ Build : #${env.BUILD_NUMBER}
 URL : ${env.BUILD_URL}
 """,
                 to: "asmaeelfehri@gmail.com"
-            )
+            ) 
         }
     }
 }
