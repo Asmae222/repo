@@ -86,7 +86,7 @@ Projet : ${env.JOB_NAME}
 Build : #${env.BUILD_NUMBER}
 URL : ${env.BUILD_URL}
 """,
-                to: "asmaeelfehri@gmail.com" 
+                to: "othmanekkk@gmail.com" 
                  
             ) 
         }
