@@ -5,7 +5,16 @@ pipeline {
         maven 'Maven3'
     }
 
+    parameters {
+        booleanParam(
+            name: 'SKIP_QUALITY',
+            defaultValue: false,
+            description: 'Passer la qualite statique (pour debug rapide)'
+        )
+    }
+
     stages {
+
         stage('Checkout') {
             steps {
                 checkout scm
@@ -26,6 +35,9 @@ pipeline {
         }
 
         stage('Qualite statique') {
+            when {
+                expression { return !params.SKIP_QUALITY }
+            }
             steps {
                 bat 'mvn checkstyle:checkstyle pmd:pmd pmd:cpd spotbugs:spotbugs -B'
             }
@@ -36,6 +48,12 @@ pipeline {
             }
         }
 
+        stage('Validation manuelle') {
+            steps {
+                input message: 'Rapports qualite OK ? Continuer vers le deploiement ?', ok: 'Oui, continuer'
+            }
+        }
+
         stage('Trigger job chaine') {
             steps {
                 script {
@@ -43,9 +61,22 @@ pipeline {
                 }
             }
         }
+
     }
 
     post {
+        success {
+            emailext(
+                subject: "Build SUCCES - ${env.JOB_NAME} #${env.BUILD_NUMBER}",
+                body: """Le build a reussi !
+
+Projet : ${env.JOB_NAME}
+Build : #${env.BUILD_NUMBER}
+URL : ${env.BUILD_URL}
+""",
+                to: "asmaeelfehri@gmail.com"
+            )
+        }
         failure {
             emailext(
                 subject: "Build FAILED - ${env.JOB_NAME} #${env.BUILD_NUMBER}",
@@ -59,4 +90,4 @@ URL : ${env.BUILD_URL}
             )
         }
     }
-} 
+}
