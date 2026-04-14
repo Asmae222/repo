@@ -1,0 +1,15 @@
+# Dossier de build Maven - NE JAMAIS commiter
+target/
+ 
+# Fichiers IDE
+.idea/
+*.iml
+.eclipse/
+.project
+.classpath
+.settings/
+ 
+# Fichiers OS
+.DS_Store
+Thumbs.db
+ 
