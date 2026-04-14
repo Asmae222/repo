@@ -6,7 +6,7 @@
     <groupId>fr.epsi</groupId>
     <artifactId>tp-jenkins</artifactId>
     <version>1.0-SNAPSHOT</version>
-    <n>tp-jenkins</n>
+    <name>tp-jenkins</name>
 
     <properties>
         <maven.compiler.source>21</maven.compiler.source>
